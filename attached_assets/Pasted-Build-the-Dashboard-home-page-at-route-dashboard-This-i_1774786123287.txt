@@ -1,0 +1,84 @@
+Build the Dashboard home page at route "/dashboard". This is the main workspace — the first thing users see every day.
+
+LAYOUT:
+- Use the authenticated Layout with sidebar and topbar
+- Sidebar shows niche-specific icons and module names from WorkspaceConfig
+- Topbar shows: business name + niche badge left, global date filter (Today/Week/Month/Custom) center-right, notifications bell, AI assistant button, upgrade badge right
+
+PERSONALIZED GREETING:
+- "Good morning/afternoon/evening, [name]." based on time of day
+- Subtext: "Here's your [niche] business overview." using niche from WorkspaceConfig
+
+NORTH STAR METRIC:
+- Large prominent card at top — single most important metric
+- Dog trainer: total sessions this week
+- Farmer: total inventory value  
+- Tailor: active orders
+- Default: total revenue this month
+- Number animates counting up on page load
+
+STAT CARDS ROW:
+- 4 cards in a row, each with icon, label, value, and trend arrow:
+  · Today's appointments/bookings
+  · Pending invoices amount
+  · Active clients count
+  · Overdue tasks count
+- All labels use niche-specific terminology from WorkspaceConfig
+- Trend shows % change vs last period
+- Numbers count up on mount with Framer Motion
+
+NEXT BEST ACTION WIDGET:
+- Card with AI-generated recommendation
+- Examples: "You have 2 unpaid invoices totaling ₹3,400. Send reminders?" with "Send Now" button
+- "3 sessions tomorrow. Confirm with clients?" with "Confirm All" button  
+- "Stock of [item] is running low." with "Update Stock" button
+- Pulls from real DB data, AI generates the message
+
+REVENUE SPARKLINE CHART:
+- Line chart showing last 7 days or 30 days based on date filter
+- Uses Recharts LineChart
+- Smooth curved line, accent color
+- Hover tooltip with exact value and date
+- "Revenue" or niche-appropriate label
+- "vs last period" comparison line in muted color
+
+ACTIVITY FEED:
+- Right column — last 10 activity log entries
+- Each entry: icon + action text + timestamp
+- "New booking added · 2 mins ago"
+- "Invoice #INV-004 marked paid · 1 hour ago"
+- "Client Priya Sharma added · yesterday"
+- Icons colored by type: teal for bookings, amber for invoices, purple for clients
+- "View all activity" link at bottom
+
+AI WEEKLY DIGEST BANNER:
+- Appears at top of page on Mondays (or always visible for demo)
+- Accent-bordered card: "Weekly digest · [date range]"
+- "Last week: [X] sessions completed, ₹[Y] earned, [Z] new clients added."
+- "This week: [X] sessions scheduled."
+- Dismissible with X button
+
+ONBOARDING CHECKLIST:
+- Collapsible card — shows for new users
+- Title: "Get started with NicheFlow" + progress bar (e.g. 2/5 completed)
+- Tasks:
+  · Complete your profile
+  · Add your first client
+  · Create your first booking
+  · Send your first invoice
+  · Share your public page
+- Each completed task has a strikethrough + checkmark with satisfying animation
+- "Dismiss" link at bottom
+
+QUICK ACTION BUTTONS:
+- Row of 4 buttons below greeting: "+ New Booking", "+ New Client", "+ New Invoice", "View Today"
+- Each opens the relevant module or a quick-add modal
+
+COMMAND PALETTE:
+- Triggered by ⌘K or Ctrl+K globally
+- Dark modal overlay with search input
+- Can search: clients, navigate to any page, create new booking/client/invoice, ask AI
+- Keyboard navigable with arrow keys, Enter to select
+- Shows recent actions at top before typing
+
+Make all data load from the real database. Use the sample data created during onboarding. Add skeleton loaders for all cards while data is loading.

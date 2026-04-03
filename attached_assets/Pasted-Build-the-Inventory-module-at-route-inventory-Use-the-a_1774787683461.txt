@@ -1,0 +1,68 @@
+Build the Inventory module at route "/inventory". Use the authenticated layout. Use niche terminology from WorkspaceConfig (e.g. "Supplies" for dog trainer, "Seeds & Materials" for farmer, "Fabrics & Thread" for tailor).
+
+HEADER:
+- Page title from WorkspaceConfig terminology
+- Stats row: Total Items, Total Value (₹), Low Stock Items (amber warning), Out of Stock (red warning)
+- Right: Category filter + Search + "+ Add Item" accent button
+
+INVENTORY LIST:
+- Table: Item name, Category, Quantity + Unit, Status, Cost Price, Total Value, Supplier, Actions
+- Stock level status badges:
+  · Healthy (green) — above threshold
+  · Low Stock (amber) — below threshold  
+  · Out of Stock (red) — quantity is 0
+- Low stock and out of stock rows highlighted subtly
+- Card view toggle — shows items as cards with visual stock level indicator bar
+- Filter by category, stock status
+- Sort by name, quantity, value, last updated
+- Bulk select — bulk update quantities, bulk delete
+
+ADD/EDIT ITEM FORM (slide-in panel):
+- Item name
+- Category — dropdown with niche-specific defaults + ability to add custom
+- Quantity — number input
+- Unit — dropdown: kg, litres, metres, pieces, packets, rolls, bags, Custom
+- Low stock threshold — "Alert me when below X units"
+- Cost price per unit (₹)
+- Selling price per unit (₹) — optional
+- Supplier name + phone
+- Restock notes — "Order from X, minimum Y units"
+- Photo upload (optional, store as base64 or URL)
+- "Save Item" button
+
+ITEM DETAIL PAGE:
+- All item details
+- Stock movement history — full timeline of every add/deduct
+  · Each entry: date, action (added/deducted), quantity, reason/note, recorded by
+  · Running balance shown
+- "Add Stock" button — quick modal: quantity + note ("Restocked from supplier")
+- "Deduct Stock" button — quantity + reason ("Used for client session", "Sold", "Damaged")
+- AI prediction card: "At current usage rate, this item will last approximately X more days"
+
+LOW STOCK ALERTS:
+- Dashboard badge shows count of low stock items
+- Alert list on inventory page — all items below threshold in a highlighted section at top
+- AI suggests reorder quantity: "Based on your usage, order at least X units"
+
+AI FEATURES:
+- Slow-moving stock detection: "These items haven't been used in 30 days" — card showing list
+- Auto-deduct suggestion: When a booking is marked Complete, AI asks "Deduct 1 unit of [item] used in this session?"
+- Usage pattern insights: "You typically restock [item] every 3 weeks"
+
+ANALYTICS:
+- Total inventory value over time — line chart
+- Most used items this month — horizontal bar chart
+- Category breakdown — donut chart
+- Stock turnover rate per item
+
+BACKEND:
+- GET /api/inventory — all items with filters
+- POST /api/inventory — create item
+- PUT /api/inventory/:id — update item
+- DELETE /api/inventory/:id — soft delete
+- POST /api/inventory/:id/movement — add stock movement (add or deduct)
+- GET /api/inventory/:id/movements — movement history
+- GET /api/inventory/alerts — items below threshold
+- All user-scoped, log to ActivityLog
+
+Empty state: "No inventory items yet. Add your first item →" with niche-appropriate illustration

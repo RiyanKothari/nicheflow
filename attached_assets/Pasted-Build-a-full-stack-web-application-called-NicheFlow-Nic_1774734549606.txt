@@ -1,0 +1,106 @@
+Build a full-stack web application called NicheFlow. 
+
+NicheFlow is an AI-powered business operating system for niche small businesses and solopreneurs in India — dog trainers, urban farmers, tailors, home repair contractors, photographers, and any other underserved micro-business. Users describe their business in plain language and AI builds their entire workspace automatically.
+
+TECH STACK:
+- Frontend: React + Vite
+- Styling: Tailwind CSS
+- UI Components: Shadcn/ui
+- Backend: Node.js + Express
+- Database: PostgreSQL with Prisma ORM
+- Authentication: JWT-based auth (email + password)
+- AI: Use the available AI API in Replit for all AI features
+- Charts: Recharts
+- Icons: Lucide React
+- Animations: Framer Motion
+- Routing: React Router v6
+
+FOLDER STRUCTURE:
+client/
+  src/
+    components/
+      ui/          (shadcn components)
+      layout/      (Navbar, Sidebar, TopBar)
+      modules/     (one folder per module)
+    pages/
+      Landing.jsx
+      Login.jsx
+      Signup.jsx
+      Onboarding.jsx
+      Dashboard.jsx
+      Bookings.jsx
+      Clients.jsx
+      Invoices.jsx
+      Inventory.jsx
+      Tasks.jsx
+      PublicPage.jsx
+      Settings.jsx
+    hooks/
+    context/
+    utils/
+    lib/
+server/
+  routes/
+  controllers/
+  middleware/
+  prisma/
+
+DESIGN SYSTEM — apply these globally across every single page:
+
+Colors (CSS variables):
+--bg-primary: #0a0a0b
+--bg-secondary: #111113
+--bg-tertiary: #18181b
+--bg-card: #141416
+--border: #1e1e24
+--border-hover: #2a2a32
+--text-primary: #f0f0ee
+--text-secondary: #a0a0a0
+--text-muted: #555558
+--accent: #7F77DD
+--accent-hover: #9990e8
+--accent-subtle: rgba(127, 119, 221, 0.12)
+--teal: #1D9E75
+--teal-subtle: rgba(29, 158, 117, 0.12)
+--coral: #D85A30
+--coral-subtle: rgba(216, 90, 48, 0.12)
+--amber: #BA7517
+--amber-subtle: rgba(186, 117, 23, 0.12)
+--success: #1D9E75
+--warning: #BA7517
+--danger: #D85A30
+
+Typography:
+- Import 'Geist' font from Google Fonts or use system font stack
+- Headings: font-weight 600, letter-spacing -0.02em
+- Body: font-weight 400, line-height 1.6
+- Monospace: for numbers, codes, invoice numbers
+
+Global UI rules:
+- Dark background everywhere — #0a0a0b base
+- Cards use #141416 background with 1px border #1e1e24
+- Border radius: 10px for cards, 8px for buttons, 6px for inputs
+- All inputs have dark backgrounds #111113, border #1e1e24
+- Hover states always show border-color transition to #2a2a32
+- Buttons: primary uses --accent color, secondary uses transparent with border
+- All shadows are dark: 0 4px 24px rgba(0,0,0,0.4)
+- Scrollbars styled dark and minimal
+- Focus states use --accent color outline
+
+Animations (apply globally):
+- Page transitions: 200ms fade + 8px slide up on enter
+- Card hover: translateY(-2px) with 150ms ease
+- Button press: scale(0.97) with 100ms ease
+- Number counters animate on mount
+- Skeleton loaders for all async content
+
+Layout:
+- Authenticated pages: fixed left sidebar (240px) + main content area
+- Sidebar collapses to 60px icon-only on toggle
+- Top bar: 56px height, sticky
+- Main content: padding 32px, max-width 1280px centered
+- Mobile: bottom navigation bar replaces sidebar
+
+Set up the complete project with all dependencies installed, database schema created with Prisma, and a working dev server. Create a global App.jsx with React Router routes for all pages. Set up a global ThemeProvider with the CSS variables above. Create a Layout component that wraps all authenticated pages with the sidebar and top bar.
+
+Make sure the app runs without errors before anything else.

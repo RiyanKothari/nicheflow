@@ -1,0 +1,78 @@
+Build the Invoicing module at route "/invoices". Use the authenticated layout.
+
+HEADER:
+- Page title: "Invoices"
+- Stats row: Total Revenue (this month), Outstanding Amount, Paid this month, Overdue count
+- Right: Filter by status + Date range + "+ New Invoice" accent button
+
+INVOICE LIST:
+- Table: Invoice #, Client, Amount, Status, Due Date, Actions
+- Status badges with colors: Draft (gray), Sent (blue), Viewed (purple), Paid (teal/green), Overdue (red), Cancelled (gray strikethrough)
+- Overdue invoices shown with red row highlight and "X days overdue" badge
+- Sort by date, amount, status, client
+- Filter by status, client, date range
+- Search by invoice number or client name
+- Clicking an invoice opens the invoice detail/preview
+
+NEW INVOICE FORM (slide-in panel):
+- Client selector — searchable dropdown
+- Invoice number — auto-generated (INV-001, INV-002...) but editable
+- Issue date + Due date (smart defaults: 7/15/30 days or custom)
+- Line items table:
+  · Each row: Description, Quantity, Unit Price, Total (auto-calculated)
+  · "+ Add line item" button
+  · Remove row button
+  · Niche-specific service suggestions autofill in description dropdown
+- Subtotal (auto-calculated)
+- Discount field — fixed (₹) or percentage (%)
+- Tax field — GST percentage, shows calculated amount
+- Total (auto-calculated, large and prominent)
+- Notes/terms textarea
+- "Save as Draft" + "Save & Send" buttons
+
+INVOICE PREVIEW PAGE at "/invoices/:id":
+- Clean, professional invoice layout — looks like a real invoice
+- NicheFlow branding subtle at bottom "Powered by NicheFlow"
+- Business name, logo, address top left
+- Client details top right
+- Invoice number, dates
+- Line items table
+- Totals breakdown
+- Notes/terms section
+- Status banner at top — "PAID" green stamp, "OVERDUE" red stamp, etc.
+- Action buttons: Edit, Download PDF (use window.print() or a PDF library), Share Link, Send WhatsApp
+- Mark as Paid button — opens modal to record payment method (Cash, UPI, Bank Transfer, Card)
+- Partial payment button — enter amount received
+
+PUBLIC INVOICE PAGE at "/invoice/public/:id":
+- Accessible without login — for sharing with clients
+- Same clean invoice layout
+- No edit buttons — view only
+- "Contact via WhatsApp" button at bottom
+
+PAYMENT TRACKING:
+- Payment history section on invoice detail
+- Each payment: date, amount, method, recorded by
+- Outstanding balance shown if partial payments exist
+
+AI FEATURES:
+- "Generate from booking" — when creating invoice, "Import from booking" button pulls client and service details automatically
+- Smart overdue reminder — on overdue invoices, "Send Reminder" button generates a polite WhatsApp message via AI
+- Revenue forecast card on invoice list page: "Based on your current bookings, you're on track to earn ₹[X] this month"
+
+ANALYTICS:
+- Revenue chart — monthly bars using Recharts
+- Paid vs Outstanding donut chart
+- Average invoice value
+- Top clients by invoice amount
+
+BACKEND:
+- GET /api/invoices — all invoices with filters
+- POST /api/invoices — create invoice
+- GET /api/invoices/:id — invoice detail
+- PUT /api/invoices/:id — update invoice
+- PATCH /api/invoices/:id/status — update status
+- POST /api/invoices/:id/payment — record payment
+- GET /api/invoices/public/:id — public view, no auth
+- Auto-increment invoice numbers per user
+- Log all actions to ActivityLog

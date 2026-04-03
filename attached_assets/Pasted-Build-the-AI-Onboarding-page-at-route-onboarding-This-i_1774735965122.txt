@@ -1,0 +1,74 @@
+Build the AI Onboarding page at route "/onboarding". This is the most important page in the app — it's where the magic happens.
+
+OVERALL FEEL:
+- Full screen dark page, no sidebar, no topbar
+- Centered content, maximum width 680px
+- Feels like a conversation, not a form
+- Progress indicator at top showing 3 steps
+
+STEP 1 — THE CONVERSATION:
+- NicheFlow logo at top center
+- Greeting message appears with typewriter animation: "Hi! I'm your NicheFlow AI. Tell me about your business and I'll build your complete workspace."
+- Large textarea input below — placeholder: "e.g. I run a small dog training business in Chennai. I handle one-on-one sessions and group classes, manage around 15 clients, and charge per session..."
+- Microphone button next to input for voice input using Web Speech API
+- "Build my workspace →" primary button
+- Below: Example chips the user can click to auto-fill:
+  · "I'm a dog trainer"
+  · "I run a tailoring shop"
+  · "I'm an urban farmer"
+  · "I do home repairs"
+  · "I'm a freelance photographer"
+
+AI PROCESSING:
+- When user submits, call the Replit AI API with this system prompt:
+  "You are NicheFlow's workspace generator. The user will describe their business. You must respond with a JSON object containing:
+  {
+    niche: string (detected business type),
+    businessName: string (suggested name or extracted from description),
+    modules: array of module names to enable from [bookings, clients, invoices, inventory, tasks, publicPage],
+    terminology: {
+      clients: string (what to call clients in this niche),
+      bookings: string (what to call bookings),
+      inventory: string (what to call inventory),
+      tasks: string (what to call tasks),
+      services: array of 4-5 typical service names for this niche
+    },
+    greeting: string (personalized dashboard greeting for this niche),
+    sampleData: {
+      clients: array of 3 realistic fake client objects with niche-specific fields,
+      bookings: array of 2 fake upcoming bookings,
+      tasks: array of 3 realistic tasks for this niche
+    },
+    suggestedTagline: string (for their public page),
+    color: string (one of: purple, teal, coral, amber — best fit for the niche)
+  }
+  Respond with valid JSON only, no other text."
+
+STEP 2 — BUILDING ANIMATION:
+- Full screen "Building your workspace..." state
+- Show animated progress with modules appearing one by one:
+  · "Setting up your workspace..." (0-20%)
+  · "Configuring your modules..." (20-50%)  
+  · "Personalizing for [detected niche]..." (50-75%)
+  · "Preparing your sample data..." (75-90%)
+  · "Almost ready..." (90-100%)
+- Each module icon appears with a checkmark as it's "installed"
+- Smooth progress bar at bottom
+- Takes minimum 3 seconds even if AI responds faster — feels earned
+
+STEP 3 — PREVIEW:
+- "Your workspace is ready!" heading with subtle celebration animation
+- Show a preview card of what was built:
+  · Detected niche badge
+  · List of enabled modules with their niche-specific names
+  · "Your clients will be called [terminology.clients]"
+  · "Your bookings will be called [terminology.bookings]"
+- Large "Enter my workspace →" accent button
+- On click: save workspace config to DB, redirect to /dashboard
+
+BACKEND:
+- POST /api/onboarding/generate — calls AI, saves WorkspaceConfig to DB, saves sample data
+- GET /api/onboarding/status — check if user has completed onboarding
+- If user visits /onboarding after already completing it, redirect to /dashboard
+
+Make this page feel genuinely magical. The typing animation, the building sequence, and the reveal moment are the product's wow factor.

@@ -1,0 +1,91 @@
+Apply final polish, animations, and demo data to make NicheFlow look and feel production-ready for a live demo.
+
+DEMO DATA SEEDING:
+Create a seed script that populates the database with realistic demo data for a dog training business. Run this for the default demo account (email: demo@nicheflow.app, password: demo1234).
+
+Seed the following:
+- User: "Riya Sharma", business "Riya's K9 Academy", niche "Dog Trainer", Chennai
+- WorkspaceConfig: terminology {clients: "Dogs & Owners", bookings: "Sessions", inventory: "Supplies", tasks: "Training Tasks"}, modules all enabled, accent color purple
+- 8 Clients with realistic data:
+  · Client 1: Priya Menon, dog: Bruno (Labrador, 2yrs), phone: 9876543210, tags: VIP, total: ₹8,400
+  · Client 2: Arjun Kumar, dog: Max (German Shepherd, 1yr), tags: New
+  · Client 3: Sneha Patel, dog: Bella (Golden Retriever, 3yrs), tags: VIP
+  · Add 5 more with varied details, some tagged Inactive or Overdue
+- 12 Bookings spread across this week and next:
+  · Mix of Confirmed, Pending, Completed statuses
+  · Various services: One-on-One Session, Group Class, Puppy Training, Behavior Consultation
+  · Some today, some tomorrow, some next week
+- 6 Invoices:
+  · 2 Paid, 2 Pending, 1 Overdue (15 days), 1 Draft
+  · Amounts: ₹1,200 to ₹4,500
+  · Realistic line items: "One-on-One Session x2 — ₹800 each", "Training Package — ₹2,500"
+- 10 Inventory items:
+  · Dog treats (bulk) — 5kg remaining, threshold 2kg
+  · Training clickers — 8 pieces, threshold 3
+  · Leashes — 4 pieces, threshold 2
+  · Agility cones — 12 pieces
+  · Puppy pads — 20 pieces, threshold 5 (LOW STOCK — for demo)
+  · Add 5 more realistic items, 2 showing low stock
+- 8 Tasks:
+  · Mix of Urgent, High, Normal priorities
+  · Some linked to clients
+  · 3 overdue (for demo — judges will see the overdue flag working)
+  · Examples: "Prepare agility course for Bruno", "Follow up with Sneha re: package renewal", "Restock training treats"
+- Activity log with 15 realistic recent entries
+- Public page configured: tagline "Professional dog training in Chennai — patience, trust, results.", services listed, contact filled, 3 reviews
+
+ANIMATIONS — Apply Framer Motion throughout:
+
+Landing page:
+- Hero text: staggered word-by-word reveal on load
+- Stat counters: count up when scrolled into view (use IntersectionObserver)
+- Feature cards: stagger fade-in from bottom on scroll
+- Niche showcase: smooth tab transition with slide animation
+- Testimonial strip: smooth infinite scroll CSS animation
+
+Dashboard:
+- Page load: stat cards stagger in from bottom with 80ms delay between each
+- Number counters: animate from 0 to value on mount (1 second duration)
+- Activity feed items: stagger in from right
+- Charts: draw animation — line draws itself, bars grow from bottom
+
+Module pages:
+- List items: stagger in from bottom on load (30ms delay per item, max 10 items animated)
+- Slide-in panels: smooth 300ms slide from right
+- Status badge changes: color transition animation
+- Card hover: translateY(-2px) + slight shadow increase
+
+Modals and overlays:
+- Command palette: scale from 0.95 + fade in, 150ms
+- AI assistant panel: slide up from bottom right, 250ms
+- Notification dropdown: fade + slide down, 150ms
+- All modals: fade backdrop + scale content
+
+Micro-interactions:
+- Checkbox completion: satisfying checkmark draw animation
+- Task moved to Done column: brief green flash
+- Invoice marked paid: confetti burst (use canvas-confetti library)
+- Onboarding completion: celebration animation with particles
+
+FINAL UI POLISH:
+- Audit every page for consistent spacing (use 8px grid)
+- Ensure all empty states have illustrations (use simple SVG illustrations inline)
+- Check all loading states have skeleton loaders
+- Verify all error states show helpful messages
+- Add subtle noise texture to backgrounds (1% opacity) for depth
+- Ensure sidebar active states are clearly visible
+- Verify all modals have proper close buttons and Escape key handling
+- Check all forms have proper validation with red underlines and error messages
+- Ensure the command palette works on every page
+- Verify AI assistant maintains conversation history within the session
+- Test the complete user flow: Signup → Onboarding → Dashboard → Add booking → Add client → Create invoice → Check inventory → Public page
+- Make sure the demo account (demo@nicheflow.app / demo1234) works perfectly end to end
+- Add a "Try Demo" button on the login page that auto-fills demo credentials
+
+PERFORMANCE FINAL:
+- Verify no console errors
+- Check all API endpoints return proper error responses
+- Ensure JWT expiry is handled gracefully (redirect to login)
+- Add loading states to all buttons that make API calls
+- Verify mobile navigation works on all pages
+- Final check: the app should feel fast, smooth, and premium at all times

@@ -1,0 +1,82 @@
+Build the Public Business Page feature. Two parts: the editor inside the app, and the public-facing page.
+
+EDITOR at route "/public-page" (authenticated):
+- Split layout: Left = editor controls, Right = live preview (updates in real time as user edits)
+- Header: "Your Public Page" + live URL pill showing nicheflow.app/[username] + "Copy Link" button + "View Live" button
+
+EDITOR SECTIONS (left panel):
+1. Business Identity:
+   - Business name input
+   - Tagline input (with AI generate button — calls AI to suggest a tagline)
+   - Logo upload (circle crop preview)
+   - Cover photo upload
+   - Accent color picker — 8 preset colors matching NicheFlow palette
+
+2. About Section:
+   - Toggle on/off
+   - About text textarea (with AI write button — generates professional description from business name + niche)
+   - Character count
+
+3. Services:
+   - Toggle on/off
+   - List of services with: name, duration, price (₹), description, booking button toggle
+   - Drag to reorder
+   - "+ Add Service" button
+   - Each service can have "Book Now" button that links to booking flow
+
+4. Contact Info:
+   - Toggle on/off
+   - Phone, Email, Address, Google Maps link
+   - WhatsApp button toggle
+   - Social links: Instagram, Facebook, YouTube
+
+5. Reviews:
+   - Toggle on/off
+   - Show/hide individual reviews
+
+6. Booking Widget:
+   - Toggle on/off
+   - "Allow clients to book directly from your page"
+
+LIVE PREVIEW (right panel):
+- Scrollable preview of exactly what the public page looks like
+- Updates live as user edits
+- Mobile/Desktop preview toggle
+
+PUBLIC PAGE at route "/p/:username" (no auth required):
+- Clean, beautiful, mobile-first page
+- Header: Cover photo + logo overlay + business name + tagline
+- Accent color from business settings applied throughout
+- Navigation: smooth scroll links to sections
+
+SECTIONS ON PUBLIC PAGE:
+- About — business description
+- Services — cards with name, duration, price, "Book Now" button
+- Booking widget (if enabled):
+  · Client selects service → picks date → picks time slot → enters name + phone → confirms
+  · Booking saved to DB, appears in operator's bookings module
+  · Confirmation message shown to client
+- Contact — phone, email, address, WhatsApp button (opens wa.me/[phone])
+- Reviews — star ratings and comments (clients can leave reviews via a form)
+- Footer: "Powered by NicheFlow" subtle watermark
+
+REVIEWS:
+- On public page, "Leave a review" button opens a simple form: name, star rating (1-5), comment
+- Submitted reviews appear on the public page (after a short delay for demo)
+- Reviews also visible in the editor with ability to hide individual ones
+
+ANALYTICS (in editor):
+- Page views this month (store view count in DB)
+- Bookings via public page vs direct
+- Most viewed service section
+
+BACKEND:
+- GET /api/public/:username — public page data, no auth
+- POST /api/public/:username/book — create booking from public page
+- POST /api/public/:username/review — submit review
+- GET /api/public-page — get current user's page config (auth required)
+- PUT /api/public-page — update page config (auth required)
+- GET /api/public-page/analytics — view stats (auth required)
+- Track page views with a simple counter in DB
+
+Make the public page feel like a premium business website, not a generic link-in-bio. It should make the business owner proud to share it.

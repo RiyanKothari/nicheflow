@@ -1,0 +1,95 @@
+Build the Settings page at route "/settings". Use the authenticated layout. Organized into clearly labeled sections with a left sub-navigation.
+
+LAYOUT:
+- Left sub-nav (inside main content, not the main sidebar): Profile, Workspace, Notifications, Language, Team, Billing, Integrations, Data & Privacy, AI Preferences
+- Clicking each section smooth-scrolls to it or shows that section
+- Current section highlighted in sub-nav
+- All changes auto-save with a subtle "Saved" toast, or have explicit Save buttons per section
+
+PROFILE & BUSINESS:
+- Profile photo upload
+- Full name, email (with change email flow)
+- Business name, business type/niche
+- Business address, operating hours (per day toggles with open/close times)
+- Time zone selector — default IST
+- Currency selector — default INR ₹
+- Phone number
+
+WORKSPACE CUSTOMIZATION:
+- "Re-run AI Setup" button — with warning "This will rebuild your workspace. Your data won't be deleted." Opens onboarding flow again
+- Module manager — toggle each module on/off with drag to reorder sidebar
+- Simple Mode toggle — large toggle with description "Simplifies the interface for easier use. Hides advanced features."
+- Dashboard widget manager — toggle which cards appear on home screen
+- Niche terminology editor — table showing current terms with edit fields:
+  · Clients → [editable field]
+  · Bookings → [editable field]
+  · Inventory → [editable field]
+  · Tasks → [editable field]
+  · Services → [editable field]
+- "Reset to defaults" button
+
+LANGUAGE:
+- Language selector with flags:
+  · 🇬🇧 English (default)
+  · 🇮🇳 Hindi — हिंदी
+  · 🇮🇳 Tamil — தமிழ்
+  · 🇮🇳 Telugu — తెలుగు
+  · 🇮🇳 Kannada — ಕನ್ನಡ
+  · 🇮🇳 Marathi — मराठी
+  · 🇮🇳 Bengali — বাংলা
+  · 🇮🇳 Gujarati — ગુજરાતી
+- Selecting a language saves preference to DB and updates UI labels
+- Note: For demo, implement English + Hindi full translation using i18next. Show other languages as "Coming soon"
+- Use i18next + react-i18next for internationalization
+
+NOTIFICATIONS:
+- Toggle per event: New booking, Invoice overdue, Low stock alert, Task due, New review on public page
+- Per toggle: In-app + WhatsApp (simulated) + Email checkboxes
+- Quiet hours toggle: no notifications between [time] and [time]
+- Weekly digest toggle
+
+TEAM:
+- Invite member by email input + role selector (Manager, Staff) + Send Invite button
+- Team members list: avatar, name, email, role, status (Active/Invited), Remove button
+- Role permissions table:
+  · Staff: Can view and create bookings and clients. Cannot view invoices or settings.
+  · Manager: Can do everything except billing and deleting data.
+  · Owner: Full access.
+
+BILLING:
+- Current plan card — Free or Premium, with features list
+- If Free: Upgrade to Premium card with feature list + ₹499/month button (UI only for demo, no real payment)
+- If Premium: billing date, amount, "Cancel subscription" link
+- Plan comparison table
+
+INTEGRATIONS:
+- WhatsApp Business — "Connect" button (UI mockup — shows connected state after click)
+- Google Calendar — "Connect" button
+- Razorpay — API key input fields (save to DB, use for payment simulation)
+- Instagram — "Connect" button
+- Google Maps — business location link input
+- Each integration shows connected/disconnected status badge
+
+DATA & PRIVACY:
+- Export all data — "Download CSV" buttons per category (Clients, Bookings, Invoices, Inventory, Tasks)
+- Data backup status — "Last backed up [timestamp]"
+- Delete account — red danger button, opens confirmation modal requiring user to type "DELETE" to confirm
+- Privacy: toggle "Show business on NicheFlow directory" (future feature, UI only)
+
+AI PREFERENCES:
+- AI assistant toggle — on/off
+- Suggestion frequency — Aggressive (many suggestions) / Balanced / Minimal — radio buttons
+- AI tone — Formal / Friendly — affects AI-generated messages to clients
+- AI language — follows main language setting
+- "Reset AI workspace" — clears WorkspaceConfig and restarts onboarding
+
+BACKEND:
+- GET /api/settings — get all user settings
+- PUT /api/settings/profile — update profile
+- PUT /api/settings/workspace — update workspace config
+- PUT /api/settings/notifications — update notification preferences
+- PUT /api/settings/language — update language preference
+- POST /api/settings/team/invite — send team invite
+- DELETE /api/settings/team/:memberId — remove team member
+- DELETE /api/settings/account — delete account with all data
+- GET /api/settings/export/:type — export data as CSV

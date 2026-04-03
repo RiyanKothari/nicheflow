@@ -1,0 +1,290 @@
+NicheFlow must work perfectly for ANY business type a user describes 
+— not just dog trainers or farmers. Make the entire app universally 
+adaptive. This is the core promise of the product.
+
+THE CORE PRINCIPLE:
+When a user describes ANY business during onboarding, the entire app 
+must reshape itself to fit that business perfectly. Every label, every 
+field, every suggestion, every sample data, every module — all of it 
+adapts to whatever business the user describes.
+
+UNIVERSAL AI ONBOARDING:
+Update the onboarding AI prompt to handle any business type:
+
+"You are NicheFlow's workspace generator. The user will describe ANY 
+type of business. Your job is to deeply understand their business and 
+generate a complete, accurate workspace configuration. No matter what 
+business they describe — a barbershop, a dance academy, a food truck, 
+a gym, a legal consultant, a wedding planner, a driving school, a 
+flower shop, a bakery, a mechanic, a music teacher, a yoga studio, 
+a fisherman, a carpenter, a nurse running home visits, a astrologer, 
+a tutor, a travel agent, or anything else — you must generate a 
+perfectly tailored workspace.
+
+Respond with this JSON:
+{
+  niche: string (the exact detected business type),
+  nicheEmoji: string (one relevant emoji for this business),
+  businessName: string (extracted or suggested),
+  modules: {
+    bookings: boolean,
+    clients: boolean,
+    invoices: boolean,
+    inventory: boolean,
+    tasks: boolean,
+    publicPage: boolean
+  },
+  terminology: {
+    clients: string (what this business calls their customers),
+    bookings: string (what this business calls appointments/orders),
+    inventory: string (what this business calls their stock/supplies),
+    tasks: string (what this business calls their to-dos),
+    services: array of 6 realistic service names for this exact business
+  },
+  customFields: {
+    clients: array of {label, type, placeholder} for client-specific 
+              fields this business would need,
+    bookings: array of {label, type, placeholder} for booking-specific 
+              fields this business would need,
+    inventory: array of {label, type, placeholder} for inventory-specific 
+               fields this business would need
+  },
+  kanbanColumns: array of 4 column names for this business's workflow,
+  inventoryCategories: array of 5-6 relevant inventory category names,
+  inventoryUnits: array of relevant units of measurement for this business,
+  sampleData: {
+    clients: array of 3 realistic fake clients with niche-appropriate 
+             names and custom field values,
+    bookings: array of 3 realistic upcoming bookings with correct service 
+             names and realistic notes,
+    inventory: array of 5 realistic inventory items with correct units 
+              and quantities,
+    tasks: array of 4 realistic tasks this business would actually have,
+    invoiceItems: array of 4 realistic line items with prices in INR
+  },
+  dashboardMetric: string (the most important metric name for this business),
+  publicPageTagline: string (a compelling tagline for this business),
+  suggestedColor: string (one of: purple, teal, coral, amber, blue),
+  weeklyDigestTemplate: string (template for AI weekly digest using 
+                        business-specific language),
+  nextActionTemplates: array of 3 smart next-action suggestion templates 
+                      this business would actually find useful
+}
+
+Always respond with valid JSON only. Be specific and realistic for the 
+exact business described. Never give generic answers."
+
+UNIVERSAL CUSTOM FIELDS SYSTEM:
+The entire app must support dynamic custom fields stored in the 
+WorkspaceConfig. Update the database and UI as follows:
+
+Database — add to WorkspaceConfig model:
+- customClientFields: JSON array of field definitions
+- customBookingFields: JSON array of field definitions  
+- customInventoryFields: JSON array of field definitions
+- Each field definition: { id, label, type, placeholder, required, 
+  options (for dropdowns) }
+- Field types supported: text, number, textarea, select, date, 
+  phone, checkbox, multiselect
+
+Client Profile — universal custom fields:
+- After the standard fields (name, phone, email), render all 
+  customClientFields dynamically
+- Each field type renders the correct input component
+- All values saved in a customData JSON column on the Client model
+- Examples by business:
+  · Barbershop: Hair Type, Preferred Style, Beard/No Beard, 
+    Usual Service
+  · Dance Academy: Dance Style, Skill Level, Age Group, 
+    Parent Contact
+  · Gym: Membership Type, Fitness Goal, Medical Conditions, 
+    Emergency Contact
+  · Bakery: Dietary Restrictions, Favourite Items, 
+    Delivery Address, Birthday
+  · Mechanic: Vehicle Make, Vehicle Model, Year, License Plate, 
+    Last Service Date
+  · Wedding Planner: Wedding Date, Venue, Guest Count, Budget, 
+    Partner Name
+  · Music Teacher: Instrument, Current Level, Practice Hours/Week, 
+    Has Own Instrument
+  · Driving School: License Type (LMV/HMV), Vehicle Preference, 
+    Current Level, Referred By
+
+Booking Form — universal custom fields:
+- After standard fields, render customBookingFields dynamically
+- Examples:
+  · Barbershop: Service requested, Specific barber preference
+  · Dance Academy: Class type, Batch timing
+  · Mechanic: Issue description, Parts needed, 
+    Estimated completion date
+  · Catering: Event type, Number of people, Dietary requirements, 
+    Delivery address
+  · Tutor: Subject, Topic, Homework help or concept teaching
+
+Inventory — universal categories and units:
+- Categories auto-populated from inventoryCategories in WorkspaceConfig
+- Units auto-populated from inventoryUnits in WorkspaceConfig  
+- Examples:
+  · Barbershop: Hair products, Tools, Consumables, Accessories
+    Units: bottles, pieces, packets, sets
+  · Bakery: Flour & grains, Dairy, Fruits, Packaging, Flavourings
+    Units: kg, litres, pieces, packets, dozens
+  · Gym: Equipment, Supplements, Merchandise, Cleaning supplies
+    Units: pieces, bottles, kg, units
+  · Flower Shop: Flowers, Leaves, Packaging, Ribbons, Vases
+    Units: stems, bunches, metres, pieces, rolls
+
+UNIVERSAL KANBAN BOARD:
+- Column names come from kanbanColumns in WorkspaceConfig
+- Examples:
+  · Barbershop: Walk-in Queue → In Chair → Done → No Show
+  · Wedding Planner: Enquiry → Planning → Confirmed → Completed
+  · Mechanic: Dropped Off → Being Repaired → Ready → Collected
+  · Bakery: Order Received → In Preparation → Ready → Delivered
+  · Driving School: Enrolled → Active Lessons → Test Prep → Passed
+  · Gym: Lead → Trial → Active Member → Lapsed
+  · Tutor: Assessment → Teaching → Revision → Exam Ready
+
+UNIVERSAL DASHBOARD METRIC:
+- dashboardMetric from WorkspaceConfig determines the north star card
+- Examples:
+  · Barbershop: "Haircuts today"
+  · Bakery: "Orders in queue"
+  · Gym: "Active members"
+  · Mechanic: "Vehicles in workshop"
+  · Wedding Planner: "Events this quarter"
+  · Driving School: "Students in training"
+  · Flower Shop: "Orders to deliver today"
+
+UNIVERSAL SERVICE SUGGESTIONS:
+- When creating a booking or invoice, service dropdown auto-populates 
+  with the services array from WorkspaceConfig
+- User can always add custom services not in the list
+- Examples auto-populated:
+  · Barbershop: Haircut, Beard Trim, Hair Color, Head Massage, 
+    Kids Cut, Clean Shave
+  · Dance Academy: Bharatanatyam, Hip Hop, Salsa, Zumba, 
+    Contemporary, Kids Ballet
+  · Gym: Personal Training Session, Group Class, Nutrition 
+    Consultation, Body Assessment
+  · Catering: Breakfast Package, Lunch Package, Dinner Package, 
+    Snacks Package, Full Day
+  · Astrologer: Birth Chart Reading, Tarot Reading, Vastu 
+    Consultation, Numerology, Match Making
+
+UNIVERSAL INVOICE LINE ITEMS:
+- Invoice line items pull from invoiceItems in WorkspaceConfig as 
+  quick-add suggestions
+- Users can type any custom item
+- Niche-specific suggestions shown as chips above the line items table
+
+UNIVERSAL PUBLIC PAGE:
+- Services section auto-populated with this business's services
+- About section AI-generated for this specific business
+- Tagline from publicPageTagline in WorkspaceConfig
+- "Book Now" buttons on services work for any business type
+
+UNIVERSAL SETTINGS — CUSTOM FIELD EDITOR:
+Add a "Custom Fields" section to Settings:
+- Shows three tabs: Client Fields, Booking Fields, Inventory Fields
+- Each tab shows the current custom fields as an editable list:
+  · Field label (editable)
+  · Field type selector (text, number, textarea, select, date, 
+    phone, checkbox)
+  · Placeholder text (editable)
+  · Required toggle
+  · For select/multiselect: add/remove options
+  · Delete field button
+  · Drag to reorder
+- "+ Add Custom Field" button at bottom of each list
+- Changes save to WorkspaceConfig and immediately reflect across 
+  the entire app
+- "Reset to AI defaults" button — restores the fields AI generated 
+  during onboarding
+
+UNIVERSAL SAMPLE DATA:
+- When onboarding completes for ANY business, the sampleData from 
+  the AI response is used to pre-populate:
+  · 3 clients with correct custom field values
+  · 3 bookings with correct service names
+  · 5 inventory items with correct units and categories
+  · 4 tasks that make sense for this business
+- All sample data is clearly labeled with a subtle "Sample data" 
+  badge that dismisses when user adds their first real record
+- "Clear sample data" button in Settings → Workspace
+
+UNIVERSAL AI ASSISTANT:
+Update the floating AI assistant system prompt to be business-aware:
+
+"You are NicheFlow's AI assistant for [businessName], a [niche] 
+business owned by [ownerName]. 
+
+Business context:
+- They call their customers: [terminology.clients]
+- They call their appointments: [terminology.bookings]  
+- Their typical services: [services list]
+- Current data: [X] [terminology.clients], [Y] [terminology.bookings] 
+  this week, ₹[Z] in pending invoices, [W] low stock items
+
+You can help them:
+1. Answer questions about their data in natural language
+2. Create bookings, clients, tasks by understanding natural language
+3. Give business-specific advice for a [niche] business
+4. Explain how to use NicheFlow features
+5. Draft messages to clients in their language ([language])
+
+Always use their terminology — say [terminology.clients] not 
+'clients', say [terminology.bookings] not 'bookings'. Be warm, 
+practical and concise. Respond in [language]."
+
+UNIVERSAL NEXT BEST ACTIONS:
+- nextActionTemplates from WorkspaceConfig used to generate 
+  dashboard recommendations
+- Templates are business-specific from AI generation
+- Examples:
+  · Barbershop: "You have [X] walk-ins scheduled today. 
+    Estimated chair time: [Y] hours."
+  · Mechanic: "[X] vehicles are ready for pickup. 
+    Send collection reminders?"
+  · Wedding Planner: "[X] events in the next 30 days. 
+    [Y] still have pending payments."
+  · Bakery: "[X] orders due for delivery today. 
+    [Y] require custom decoration."
+  · Gym: "[X] memberships expiring this week. 
+    Send renewal reminders?"
+
+TESTING — Verify the app works for these business types 
+end to end by testing onboarding with each description:
+
+1. "I run a small barbershop in Mumbai. I have 3 chairs, 
+   about 20 regular customers, and offer haircuts, beard 
+   trims and hair color. I charge between ₹150 and ₹800 
+   per service."
+
+2. "I'm a home baker in Bangalore. I take custom cake orders, 
+   cookies and brownies. Clients order 2-3 days in advance, 
+   I deliver to their homes. I handle about 15 orders a week."
+
+3. "I teach Bharatanatyam and Bollywood dance from my home 
+   studio in Hyderabad. I have batch classes for kids and 
+   adults, plus private lessons. About 40 students currently."
+
+4. "I'm a mobile car mechanic in Delhi. I visit clients at 
+   their homes or offices. I do oil changes, brake repair, 
+   general servicing. About 8-10 jobs per week."
+
+5. "I run a small wedding planning business in Chennai. 
+   I handle 3-4 weddings per month, manage vendors, 
+   décor, catering coordination and full day-of management."
+
+For each test, verify:
+- Onboarding generates correct JSON with business-specific 
+  terminology
+- Dashboard shows correct metric name and niche badge
+- Client form shows correct custom fields
+- Booking form shows correct service names
+- Inventory shows correct categories and units
+- Kanban columns reflect the business workflow
+- AI assistant responds using correct terminology
+- Public page shows correct tagline and services
+- Everything feels like it was built specifically for that business
