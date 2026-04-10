@@ -32,7 +32,7 @@ async function callAI(prompt: string): Promise<string> {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
     body: JSON.stringify({
-      model: "gpt-5-mini",
+      model: "gpt-oss-120b",
       messages: [{ role: "user", content: prompt }],
       max_completion_tokens: 400,
     }),

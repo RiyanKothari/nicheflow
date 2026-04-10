@@ -96,7 +96,7 @@ async function callAI(messages: Array<{ role: string; content: string }>): Promi
   const res = await fetch(`${baseUrl}/chat/completions`, {
     method: "POST",
     headers: { "Content-Type": "application/json", "Authorization": `Bearer ${apiKey}` },
-    body: JSON.stringify({ model: "gpt-5-mini", messages }),
+    body: JSON.stringify({ model: "gpt-oss-120b", messages }),
   });
   if (!res.ok) throw new Error(`AI ${res.status}: ${await res.text()}`);
   const data = await res.json() as any;

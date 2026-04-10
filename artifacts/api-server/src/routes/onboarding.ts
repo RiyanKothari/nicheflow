@@ -17,7 +17,7 @@ async function callAI(systemPrompt: string, userPrompt: string): Promise<string>
       "Authorization": `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "gpt-5-mini",
+      model: "gpt-oss-120b",
       messages: [
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt },
