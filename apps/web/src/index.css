@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+@theme {
+  /* === COLORS === */
+  --color-absolute-canvas: #ffffff;
+  --color-structural-ink: #000000;
+  --color-graphite-metadata: #595959;
+  --color-boundary-frame: #e2e2e2;
+  --color-context-action-violet: #4d49fc;
+  --color-angular-teal: #33dfdf;
+
+  /* === BACKGROUND HIERARCHY === */
+  --color-bg-void: var(--color-absolute-canvas);
+  --color-bg-base: #f7f7f7;
+  --color-bg-raised: #ffffff;
+  
+  /* === TYPOGRAPHY === */
+  --color-text-primary: var(--color-structural-ink);
+  --color-text-secondary: var(--color-graphite-metadata);
+  --color-text-inverse: #ffffff;
+  --color-accent: var(--color-context-action-violet);
+  
+  /* === FONTS === */
+  --font-sans: "Geist", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+  
+  /* === SHADOWS === */
+  --shadow-xl: rgba(0, 0, 0, 0.1) 0px 24px 70px 0px;
+  --shadow-panel: rgba(0, 0, 0, 0.08) 0px 12px 40px 0px;
+
+  /* === RADII === */
+  --radius-contentcards: 0px;
+  --radius-floatingpanels: 16px;
+  --radius-globalnavbuttons: 50px;
+  --radius-contextualbuttons: 8px;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(24px);
+  border: 1px solid var(--color-boundary-frame);
+}
+
+@utility spotlight-card {
+  background: #ffffff;
+  border: 1px solid var(--color-boundary-frame);
+  border-radius: var(--radius-floatingpanels);
+  box-shadow: var(--shadow-panel);
+}
+
+@utility focus-ring {
+  outline: none;
+  &:focus-visible {
+    outline: 2px solid var(--color-context-action-violet);
+    outline-offset: 3px;
+  }
+}
+
+@utility scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@layer base {
+  body {
+    background-color: var(--color-absolute-canvas);
+    color: var(--color-structural-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+html, body, #root {
+  min-height: 100vh;
+  background-color: var(--color-absolute-canvas) !important;
+}

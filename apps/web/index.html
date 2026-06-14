@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>NicheFlow</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Noto+Sans+Devanagari:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+      @keyframes spin { to { transform: rotate(360deg); } }
+      #pre-react-fallback {
+        display: flex;
+        height: 100vh;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        background: #0a0a0b;
+        flex-direction: column;
+        gap: 16px;
+        font-family: system-ui, -apple-system, sans-serif;
+      }
+      #pre-react-spinner {
+        width: 40px;
+        height: 40px;
+        border: 3px solid #7c6fee;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.8s linear infinite;
+      }
+      #pre-react-msg { color: #888; font-size: 14px; }
+      #pre-react-err { color: #f87171; font-size: 14px; text-align: center; display: none; }
+      #pre-react-retry {
+        margin-top: 8px;
+        padding: 8px 20px;
+        background: #7c6fee;
+        color: #fff;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root">
+      <div id="pre-react-fallback">
+        <div id="pre-react-spinner"></div>
+        <p id="pre-react-msg">Loading NicheFlow…</p>
+        <div id="pre-react-err">
+          <p>Failed to load. Please check your connection.</p>
+          <button id="pre-react-retry" onclick="location.reload()">Retry</button>
+        </div>
+      </div>
+    </div>
+    <script>
+      window.__reactMounted = false;
+      window.__showLoadError = function() {
+        var spinner = document.getElementById('pre-react-spinner');
+        var msg = document.getElementById('pre-react-msg');
+        var err = document.getElementById('pre-react-err');
+        if (spinner) spinner.style.display = 'none';
+        if (msg) msg.style.display = 'none';
+        if (err) err.style.display = 'block';
+      };
+      window.addEventListener('error', function(e) {
+        if (!window.__reactMounted) {
+          window.__showLoadError();
+        }
+      });
+      window.addEventListener('unhandledrejection', function(e) {
+        if (!window.__reactMounted) {
+          window.__showLoadError();
+        }
+      });
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
